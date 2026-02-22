@@ -10,7 +10,7 @@ import Loader from '@/components/Loader';
 
 
 export default function BookMarkList({ fetchBookmarks, bookmarks, loading, setBookmarks }: { fetchBookmarks: () => void, bookmarks: Bookmark[], loading: boolean, setBookmarks: React.Dispatch<React.SetStateAction<Bookmark[]>> }) {
-  const { user, loading: authLoading } = useAuth();
+  const { user } = useAuth();
 
     
   const handleDelete = async (id: string) => {
@@ -27,8 +27,6 @@ export default function BookMarkList({ fetchBookmarks, bookmarks, loading, setBo
       toast.error(result.error || 'Failed to delete bookmark');
     }
   };
-
-    
 
   // Fetch initial bookmarks and set up real-time subscription
   useEffect(() => {
@@ -74,11 +72,6 @@ export default function BookMarkList({ fetchBookmarks, bookmarks, loading, setBo
     };
   }, [user, fetchBookmarks, setBookmarks]);
 
-  if (authLoading || loading) {
-    return (
-      <Loader />
-    );
-  }
 
   return (
     <>
@@ -86,10 +79,9 @@ export default function BookMarkList({ fetchBookmarks, bookmarks, loading, setBo
         {/* Bookmarks List */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Your Bookmarks ({bookmarks.length})
-          </h2>
-
-          {bookmarks.length === 0 ? (
+            Bookmarks List
+        </h2>
+        {loading ? <Loader /> : bookmarks.length === 0 ? (
             <div className="text-center py-12">
               <svg
                 className="mx-auto h-12 w-12 text-gray-400"
